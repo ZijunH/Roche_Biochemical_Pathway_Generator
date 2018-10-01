@@ -8,11 +8,11 @@ The file generated will be the full size image (maximum zoom) with the grid line
 
 Metabolic pathway preview:
 
-!(metabolic pathway)[https://raw.githubusercontent.com/ZijunH/Roche_Biochemical_Pathway_generator/master/prev1.png]
+![metabolic pathway](https://raw.githubusercontent.com/ZijunH/Roche_Biochemical_Pathway_generator/master/prev1.png)
 
 Cellular and molecular pathway preview:
 
-!(cellular and molecular pathway)[https://raw.githubusercontent.com/ZijunH/Roche_Biochemical_Pathway_generator/master/prev2.png]
+![cellular and molecular pathway](https://raw.githubusercontent.com/ZijunH/Roche_Biochemical_Pathway_generator/master/prev2.png)
 
 
 ## Requirements
