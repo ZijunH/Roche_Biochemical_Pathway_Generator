@@ -6,7 +6,13 @@ Generates a downloadable full size image of BOTH the Roche's biochemical pathway
 
 The file generated will be the full size image (maximum zoom) with the grid lines at the bottom. If you do not like grid lines, please go into the python file and delete `grid` from the `features` list.
 
+Metabolic pathway preview:
 
+!(metabolic pathway)[https://raw.githubusercontent.com/ZijunH/Roche_Biochemical_Pathway_generator/master/prev1.png]
+
+Cellular and molecular pathway preview:
+
+!(cellular and molecular pathway)[https://raw.githubusercontent.com/ZijunH/Roche_Biochemical_Pathway_generator/master/prev2.png]
 
 
 ## Requirements
