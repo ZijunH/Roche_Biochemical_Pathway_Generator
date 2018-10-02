@@ -13,6 +13,8 @@ features = ("grid", "background",  "regulatoryEffects", "higherPlants",
             "unicellularOrganisms", "coenzymes", "substrates", "enzymes")
 X_SIZE = 1024
 Y_SIZE = 1024
+TOP_BOT_BORDER = 250
+LEFT_RIGHT_BORDER = 250
 
 
 class DownloadJob(workerpool.Job):
@@ -26,7 +28,7 @@ class DownloadJob(workerpool.Job):
             shutil.copyfileobj(response, out_file)
 
 
-class MergerJob(workerpool.Job):
+class GetterJob(workerpool.Job):
     def __init__(self, map_name, i, j):
         self.map_name = map_name
         self.i = i
@@ -63,6 +65,32 @@ def white2alpha(img):
             if pixdata[x, y] == (255, 255, 255, 255):
                 pixdata[x, y] = (255, 255, 255, 0)
     return img
+
+
+def get_extent(img, up_down_dir, rev):
+    pixdata = img.load()
+    y_range = Y_SIZE if up_down_dir else X_SIZE
+    x_range = X_SIZE if up_down_dir else Y_SIZE
+    x_buffer = X_SIZE - 1 if rev else 0
+    y_buffer = Y_SIZE - 1 if rev else 0
+    rev = -1 if rev else 1
+    limit = 0
+    for y in range(y_range):
+        cur_line = True
+        for x in range(x_range):
+            if (up_down_dir):
+                if (pixdata[rev * x + x_buffer, rev * y + y_buffer] != (255, 255, 255, 255)):
+                    cur_line = False
+                    limit = y
+                    break
+            else:
+                if (pixdata[rev * y + y_buffer, rev * x + x_buffer] != (255, 255, 255, 255)):
+                    cur_line = False
+                    limit = y
+                    break
+        if (cur_line == False):
+            break
+    return limit
 
 
 def make_dir(*args):
@@ -117,7 +145,7 @@ def get_layers():
         # (0, 24, 28, 37, 45)
         for i in range(i_range):
             for j in range(j_range):
-                job = MergerJob(map_name, i, j)
+                job = GetterJob(map_name, i, j)
                 pool.put(job)
     pool.shutdown()
     pool.wait()
@@ -130,7 +158,7 @@ def get_layers():
             for j in range(j_range):
                 store_loc = store_location_maker(map_name, "merged", i, j)
                 if not os.path.exists(store_loc):
-                    job = MergerJob(map_name, i, j)
+                    job = GetterJob(map_name, i, j)
                     pool.put(job)
     pool.shutdown()
     pool.wait()
@@ -142,17 +170,28 @@ def merge_layers():
         j_range = maps[map_name][1]
         x_dim = X_SIZE * i_range
         y_dim = Y_SIZE * j_range
+        store_loc = store_location_maker(map_name, "merged", 0, 0)
+        with Image.open(store_loc) as canvas:
+            top = get_extent(canvas, True, False) - 1
+            left = get_extent(canvas, False, False) - 1
+        store_loc = store_location_maker(map_name, "merged", i_range - 1, j_range - 1)
+        with Image.open(store_loc) as canvas:
+            bot = get_extent(canvas, True, True)
+            right = get_extent(canvas, False, True)
+        x_dim =  x_dim - right - left + 2 * LEFT_RIGHT_BORDER
+        y_dim =  y_dim - bot - top + 2 * TOP_BOT_BORDER
         with Image.new('RGBA', (x_dim, y_dim), (255, 255, 255, 0)) as feature_canvas:
             for i in range(i_range):
                 for j in range(j_range):
                     store_loc = store_location_maker(map_name, "merged", i, j)
                     with Image.open(store_loc) as canvas:
-                        feature_canvas.paste(canvas, (i * X_SIZE, j * Y_SIZE))
+                        feature_canvas.paste(
+                            canvas, (i * X_SIZE - left + LEFT_RIGHT_BORDER, j * Y_SIZE - top + TOP_BOT_BORDER))
             feature_canvas.save(map_name + ".png")
 
 
 print("Process Begins")
-save_imgs()
-get_layers()
+# save_imgs()
+# get_layers()
 merge_layers()
 print("Process Ends")
