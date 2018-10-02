@@ -4,7 +4,7 @@
 
 Generates a downloadable full size image of BOTH the Roche's biochemical pathway using the segments provided. This includes the metabolic pathway AND the cellular and molecular pathway. The origin of all the data is from [here](http://biochemical-pathways.com).
 
-The file generated will be the full size image (maximum zoom) with the grid lines at the bottom. If you do not like grid lines, please go into the python file and delete `grid` from the `features` list.
+The file generated will be the full size image (maximum zoom) with the grid lines at the bottom. If you do not like grid lines, you are able to modify the operations in the `crawler.py` file.
 
 Metabolic pathway preview:
 
@@ -43,3 +43,15 @@ python3 crawler.py
 ```
 
 4. Enjoy :)
+
+## Customisation
+
+The following stuff should be implemented using different flags, but I am lazy, so you need to do all of them yourself.
+
+- You can add or remove grid lines by deleting `grid` from the `features` list.
+
+- You can change the white border around the image by changing `TOP_BOT_BORDER` and `LEFT_RIGHT_BORDER`.
+
+- You can add or remove features by removing stuff in the `features` list. The order is from the lowest layer to the highest layer.
+
+- You can change the zoom level (default is 6, the maximum zoom) by editing the sizes in `maps` and changing the `6` in `url_maker` to what you want.
