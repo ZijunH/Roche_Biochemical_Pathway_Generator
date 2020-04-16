@@ -1,5 +1,9 @@
 # Roche Biochemical Pathway Generator
 
+## NOTE
+
+Recently I discovered that the files can be downloaded directly from [https://www.roche.com/sustainability/philanthropy/science_education/pathways/pathways-ordering.htm](here), thus making this tool obsolete.
+
 ## Overview
 
 Generates a downloadable full size image of BOTH the Roche's biochemical pathway using the segments provided. This includes the metabolic pathway AND the cellular and molecular pathway. The origin of all the data is from [here](http://biochemical-pathways.com).
