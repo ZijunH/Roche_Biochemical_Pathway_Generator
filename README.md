@@ -2,7 +2,7 @@
 
 ## NOTE
 
-Recently I discovered that the files can be downloaded directly from [https://www.roche.com/sustainability/philanthropy/science_education/pathways/pathways-ordering.htm](here), thus making this tool obsolete.
+Recently I discovered that the files can be downloaded directly from [here](https://www.roche.com/sustainability/philanthropy/science_education/pathways/pathways-ordering.htm), thus making this tool obsolete.
 
 ## Overview
 
